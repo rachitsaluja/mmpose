@@ -8,6 +8,7 @@ from argparse import ArgumentParser
 import cv2
 import mmcv
 import numpy as np
+import json
 
 from mmpose.apis import (collect_multi_frames, extract_pose_sequence,
                          get_track_id, inference_pose_lifter_model,
@@ -470,6 +471,9 @@ def main():
             res['bbox'] = det_res['bbox']
             res['track_id'] = instance_id
             pose_lift_results_vis.append(res)
+            
+        with open(args.out_video_root + '/' + osp.basename(args.video_path).split('.')[0] +  '_kp.json', 'w') as fp:
+            json.dump(data, fp)
 
         # Visualization
         if num_instances < 0:
